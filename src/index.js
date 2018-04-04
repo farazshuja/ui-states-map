@@ -119,7 +119,7 @@ function renderDescription(data, state, color) {
   if (counts) {
     Object.keys(counts).forEach((key) => {
       const val = counts[key];
-      lists += ('<li><span>' + key + '</span>' + '<span class="count">' + counts[key] + '</span></li>');
+      lists += ('<li>' + key + '<span class="count">' + counts[key] + '</span></li>');
     })
     $('#us-map-popup .list-data').html(lists);
   }
