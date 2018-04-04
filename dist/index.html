@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>UI State Maps</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/ui-state-map.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.2/velocity.min.js"></script>
+  <script src="https://d3js.org/topojson.v2.min.js"></script>
+</head>
+
+<body>
+  <!-- template structure for the map -->
+  <div id="app">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-9">
+          <div id="us-map-legend">
+          </div>
+          <div id="us-map">
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div id="us-map-popup" class="hidden">
+            <h1 class="state">
+              <!-- state name will be auto-injected here -->
+            </h1>
+            <p class="description">
+              <!-- description will be auto-injected here -->
+            </p>
+            <h2>Courts by Type</h2>
+            <ul class="list-data">
+              <!-- list of states will be auto-injected here -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <table class="table" id="bars-table">
+        <thead>
+          <th>State</th>
+          <th class="bar-states">
+            <button class="btn btn-info btn-sm btn-clear-selection hidden">x</button>
+          </th>
+          <th>Total</th>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<script type="text/javascript" src="./bundle.js"></script></body>
+
+</html>
