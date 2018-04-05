@@ -3,6 +3,10 @@ body {
 }
 .states {
   fill: #dadada;
+  cursor: pointer;
+}
+.state-path:hover {
+  fill: #cacaca;
 }
 
 .state-borders {
@@ -27,6 +31,32 @@ body {
   }
 }
 
+.map-section {
+  background: #e8f6fc;
+}
+
+#bar-legend {
+  margin: 10px 0;
+  padding: 10px;
+  display: flex;
+  font-size: 14px;
+}
+#bar-legend > div {
+  width: 50%;
+}
+#bar-legend > div span {
+  display: inline-block;
+  position: relative;
+  top: 2px;
+  width: 30px;
+  height: 15px;
+  margin-right: 10px;
+}
+@media (min-width: 1024px) {
+  #bar-legend > div {
+    width: 25%;
+  }  
+}
 /* Us map popup */
 #us-map-popup {
   border: 1px solid #d1d1d1;

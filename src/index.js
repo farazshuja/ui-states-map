@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 import stateNames from './data/state-names.js';
 
 let filteredOn = null;
+const colors_palette = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f","#bcbd22", "#17becf", "#749da1", "#424c51", "#eb9191"];
 const svg = d3.select('#us-map')
   .append('svg')
   .attr('id', 'chart')
@@ -36,17 +37,24 @@ function drawMap(mapData, apiData) {
     .data(topojson.feature(mapData, mapData.objects.states).features)
     .enter().append("path")
     .attr("d", path)
-    .on('mouseover', function (d) {
+    .attr("class", "state-path")
+    .attr('fill', (d) => {
       var id = +d.id;
       var state = stateNames[id];
       var colorObj = apiData.color_code[state];
       if (colorObj) {
-        d3.select(this).attr('fill', colorObj.color).attr('cursor', 'pointer');
+        return colorObj.color;        
+      }      
+    })
+    .on('mouseover', (d) => {
+      var id = +d.id;
+      var state = stateNames[id];
+      var colorObj = apiData.color_code[state];
+      if (colorObj) {
         renderDescription(apiData, state, colorObj.color);
       }
     })
     .on('mouseout', function () {
-      d3.select(this).attr('fill', '#dadada').attr('cursor', 'default');
       animatePopup();
     });
 
@@ -151,7 +159,7 @@ function drawBars(apiData) {
 
   const colorScale = d3.scaleOrdinal()
     .domain(apiData.program_types)
-    .range(d3.schemeCategory10);
+    .range(colors_palette);
 
 
   apiData.states.forEach((s, i) => {
@@ -183,6 +191,16 @@ function drawBars(apiData) {
     animateBars();
     filteredOn = false;
   });
+
+  drawBarsLegend(apiData.program_types, colorScale);
+}
+
+function drawBarsLegend (program_types, colorScale) {
+  program_types.forEach(type => {
+    $('#bar-legend').append(`
+      <div><span style="background:${colorScale(type)}"></span>${type}</div>
+    `)
+  })
 }
 
 function generateBars(state, crimeScale, colorScale) {
