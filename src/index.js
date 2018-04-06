@@ -2,7 +2,14 @@ import * as d3 from 'd3';
 import stateNames from './data/state-names.js';
 
 let filteredOn = null;
-const colors_palette = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f","#bcbd22", "#17becf", "#749da1", "#424c51", "#eb9191"];
+// filter: { sort_type: 'title | total', sort_order: 'asc | desc', state: 'state name'}
+let filter = {
+  sort_type: 'title',
+  sort_order: 'asc',
+  state: null
+};
+
+const colors_palette = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf", "#749da1", "#424c51", "#eb9191"];
 const svg = d3.select('#us-map')
   .append('svg')
   .attr('id', 'chart')
@@ -17,6 +24,7 @@ const legendSVG = d3.select('#us-map-legend')
 
 
 var path = d3.geoPath();
+let apiData = null;
 
 // synchoronouly load data
 async function initAPI() {
@@ -24,13 +32,13 @@ async function initAPI() {
   const mapData = await mapDataResponse.json();
 
   const apiResponse = await fetch('./data/api_response.json');
-  const apiData = await apiResponse.json();
+  apiData = await apiResponse.json();
 
-  drawMap(mapData, apiData);
-  drawBars(apiData);
+  drawMap(mapData);  
+  drawBarsTable(apiData);
 }
 
-function drawMap(mapData, apiData) {
+function drawMap(mapData) {
   svg.append("g")
     .attr("class", "states")
     .selectAll("path")
@@ -43,15 +51,15 @@ function drawMap(mapData, apiData) {
       var state = stateNames[id];
       var colorObj = apiData.color_code[state];
       if (colorObj) {
-        return colorObj.color;        
-      }      
+        return colorObj.color;
+      }
     })
     .on('mouseover', (d) => {
       var id = +d.id;
       var state = stateNames[id];
       var colorObj = apiData.color_code[state];
       if (colorObj) {
-        renderDescription(apiData, state, colorObj.color);
+        renderDescription(state, colorObj.color);
       }
     })
     .on('mouseout', function () {
@@ -63,11 +71,11 @@ function drawMap(mapData, apiData) {
     .attr("d", path(topojson.mesh(mapData, mapData.objects.states, function (a, b) { return a !== b; })));
 
   // draw legend
-  drawLegend(apiData);
+  drawLegend();
 
 }
 
-function drawLegend (apiData) {
+function drawLegend() {
   const distinct_colors = Object.values(apiData.color_code).reduce((last, obj) => {
     let c = obj.color;
     if (last.indexOf(c) == -1) {
@@ -79,7 +87,7 @@ function drawLegend (apiData) {
   const legendScale = d3.scaleBand()
     .domain(d3.range(distinct_colors.length))
     .range([0, legendWidth]);
-  
+
   legendSVG.append("g")
     .attr('class', 'legend')
     .selectAll('rect')
@@ -108,9 +116,9 @@ function drawLegend (apiData) {
     .attr('text-anchor', 'end');
 }
 
-function renderDescription(data, state, color) {
-  var coordinators = data.coordinators[state];
-  var counts = data.counts[state];
+function renderDescription(state, color) {
+  var coordinators = apiData.coordinators[state];
+  var counts = apiData.counts[state];
 
   if (coordinators) {
     animatePopup(true);
@@ -135,183 +143,162 @@ function renderDescription(data, state, color) {
 }
 
 // generate html structure of the bars table
-function drawBarsTable(apiData) {
-  apiData.states.forEach((s, i) => {
-    const stateId = s.toLowerCase().replace(/\s/g, '-');
+function drawBarsTable() {
+  apiData.states.forEach(() => {
     $('#bars-table tbody').append(`
-      <tr class="${stateId}">
-        <td>${s}</td>
-        <td>
-          <div id="state-bar-${i}" class="bar-graph"></div>
-        </td>
-        <td><span class="total" data-total="${apiData.total[s]}">${apiData.total[s]}</span></td>
+      <tr class="state-row">
+        <td class="state-name"></td>
+        <td></td>
+        <td class="total"></td>
       </tr>
     `);
   });
-}
-function drawBars(apiData) {
-  console.log(apiData);
-  //generate table
-  const maxCrime = d3.max(Object.values(apiData.total));
-  const crimeScale = d3.scaleLinear()
-    .domain([0, maxCrime])
-    .range([0, 100]); // map between 0 and 100% width
+  updateBars();
+  
+  $('a[data-sort]').click(function () {
+    let $a = $(this);    
+    const direction = $a.hasClass('asc') ? 'desc' : 'asc';
+    $('a[data-sort]').removeClass('sort asc desc');
 
+    $a.addClass('sort').addClass(direction);
+    filter.sort_type = $a.attr('data-sort');
+    filter.sort_order = direction;
+
+    updateBars();
+  });
+}
+
+// filter bars based on different attributes like sort type, sort order, selected state
+function filterBarsData() {
+  let data = [];
+  Object.keys(apiData.counts).forEach(s => {
+    let courts = apiData.counts[s];
+    let courtsArr = [];
+    let courtsSum = 0;
+    //let filteredCourts = courts.filter(d => !filter.state || d.title === filter.state);
+
+    Object.keys(courts).forEach(court => {
+      courtsArr.push({
+        title: court,
+        count: courts[court]
+      });
+    });
+
+    courtsArr = courtsArr.filter(d => !filter.state || d.title === filter.state);
+    courtsSum = courtsArr.reduce((last, arr) => {
+      return last + arr.count;
+    }, 0);
+
+    data.push({
+      title: s,
+      counts: courtsArr,
+      total: courtsSum
+    });
+  });
+  
+  data.sort((a, b) => {
+    if (filter.sort_type === 'total') {
+      return filter.sort_order == 'asc' ? a.total - b.total : b.total - a.total;
+    }
+    else {
+      return filter.sort_order == 'asc'
+        ? (a.title > b.title) - (a.title < b.title)
+        : (a.title < b.title) - (a.title > b.title)
+    }
+  });
+  
+  return data;
+}
+
+function updateBars() {
+  let barsData = filterBarsData();
+  const program_types = apiData.program_types;
+  console.log(barsData);
   const colorScale = d3.scaleOrdinal()
-    .domain(apiData.program_types)
+    .domain(program_types)
     .range(colors_palette);
 
+  const maxCourts = d3.max(barsData.map(b => b.total));
+  const courtsScale = d3.scaleLinear()
+    .domain([0, maxCourts])
+    .range([0, 100]); // map between 0 and 100% width*/
 
-  apiData.states.forEach((s, i) => {
-    const stateId = s.toLowerCase().replace(/\s/g, '-');
-    $('#bars-table tbody').append(`
-      <tr class="${stateId}">
-        <td>${s}</td>
-        <td>
-          <div id="state-bar-${i}" class="bar-graph">${generateBars(apiData.counts[s], crimeScale, colorScale)}</div>
-        </td>
-        <td><span class="total" data-total="${apiData.total[s]}">${apiData.total[s]}</span></td>
-      </tr>
-    `);
-    $(`#state-bar-${i}`).on('click', '.bar', function () {
-      if (filteredOn) {
-        return;
-      }
-
-      filteredOn = true;
-      filterBars(this, apiData)
+  const cells = d3.selectAll('.state-row')
+    .data(barsData)
+    .selectAll('td')
+    .data(function (row) {
+      return [
+        { column: 'title', value: row.title },
+        { column: 'counts', value: row.counts },
+        { column: 'total', value: row.total }
+      ]
     })
+  //.append('div');
 
-  });
+  d3.selectAll('div.bar').remove();
 
-  animateBars();
+  // generate state names and total
+  let textCells = cells.filter(d => {
+    return d.column === 'title' || d.column === 'total';
+  })
+  .text(d => d.value);
 
-  $('.btn-clear-selection').click(function () {
-    $('.btn-clear-selection').prev('span').show();
-    $(this).hide();
-    animateBars();
-    filteredOn = false;
-    $('#bar-legend > div').removeClass('selected');
-  });
+  textCells.exit().remove();
 
-  drawBarsLegend(apiData.program_types, colorScale, apiData);
+  let countCells = cells.filter(d => d.column === 'counts');
+  countCells
+    .append('div')
+    .attr('class', 'bar-graph')
+    .selectAll('div')
+    .data(d => {
+      return d.value;
+    })
+    .enter()
+    .append('div')
+    .attr('class', 'bar')
+    .on('click', function(d) {
+      selectBarLegend(d.title);
+    })
+    .style('background', d => colorScale(d.title))
+    .style('width', '0%')
+    .transition(800)    
+    .style('width', d => `${courtsScale(d.count)}%`)
+    .attr('title', d => `${d.title}: ${d.count}`);
 
-  // hook sort filters
-  $('a[data-sort]').click(function() {
-    const sort_type = $(this).attr('data-sort');
-    const sort_order = $(this).hasClass('asc') ? 'desc' : 'asc';
-
-    
-    let arr = [];    
-    $('#bars-table tbody tr').each((index, item) => {
-      const $el = sort_type == 'state' ? $(item).children('td').eq(0) : $(item).find('.total');
-      arr.push({
-        index: index,
-        value: sort_type == 'state' ? $el.text() : +$el.text()
-      })
-    });
-
-    arr.sort((a, b) => {
-      if(typeof a === 'number') {
-        return sort_order == 'asc' ? a.value - b.value : b.value - a.value;
-      }
-      else {
-        return sort_order == 'asc' 
-          ? (a.value > b.value) - (a.value < b.value)
-          : (a.value < b.value) - (a.value > b.value)
-      }      
-    });
-    
-    console.log(arr);
-    
-    /*while(arr.length > 0) {
-      const $tr = $('#bars-table tbody tr');
-      const lastIndex = arr.length - 1; // 35
-      const lastItem = arr.pop();      // index: 0
-
-      // if they are not same
-      if (lastItem.index !== lastIndex) {
-        arr.splice(lastItem.index, 1);
-        const $row1 = $tr.eq(lastIndex);
-        const $row2 = $tr.eq(lastItem.index);
-        const $row1Clone = $row1.clone(true);
-        const $row2Clone = $row2.clone(true);
-
-        $row1.css('background', '#aaa');
-        $row2.css('background', '#aaa');
-
-        $row1Clone.insertBefore($row2);
-        $row2Clone.insertBefore($row1);
-
-        console.log($row1.attr('class'));
-        $row1.remove();
-        $row2.remove();
-      }
-
-    }*/
-
-    $(this).removeClass('asc desc').addClass(sort_order);
-        
-  });  
+  drawBarsLegend(colorScale);
 }
 
-function drawBarsLegend (program_types, colorScale, apiData) {
-  program_types.forEach(type => {
+function drawBarsLegend(colorScale) {
+  // if its generated already, just return back
+  if($('#bar-legend').children().length > 0) {
+    return;
+  }
+
+  apiData.program_types.forEach(type => {
     const $item = $(`
       <div data-type="${type}"><span style="background:${colorScale(type)}"></span>${type}</div>
     `);
-    $item.click(function() {
-      filterBars(null, apiData, type);
+    $item.click(function () {
+      const type = $(this).attr('data-type');
+      selectBarLegend(type);      
     });
     $('#bar-legend').append($item);
-  })
-}
-
-function generateBars(state, crimeScale, colorScale) {
-  let divs = '';
-  Object.keys(state).forEach((s) => {
-    const val = state[s];
-    divs += `
-      <div class="bar" data-type="${s}" data-width="${crimeScale(val)}" style="width: 0%; background: ${colorScale(s)};">
-        <span data-val="${val}">${s}: ${val}</span>
-      </div>
-    `;
   });
-  return divs;
+
+  $('.btn-clear-selection').click(function () {
+    $(this).hide();
+    filter.state = null;
+    updateBars();
+  });
 }
 
-function filterTable(state) {
-  const $tr = $('#bars-table tbody tr');
-  $tr.hide();
-
-  if (state) {
-    state = state.toLowerCase().replace(/\s/g, '-');
-    $tr.filter(`.${state}`).show()
-  }
-  else {
-    $tr.show();
-  }
-}
-
-function filterBars(bar, apiData, _type) {
-  //animate bars to
-  animateBars(0);
-
-  const type = _type || $(bar).attr('data-type');
-
-  //highlight bars legend
+function selectBarLegend(type) {
   $('#bar-legend > div').removeClass('selected');
   $(`#bar-legend > div[data-type="${type}"]`).addClass('selected');
+  $('.btn-clear-selection').text('x ' + type).show();  
 
-  //w8 for 800ms and animate bars
-  setTimeout(function () {
-    const maxCrime = d3.max(Object.values(apiData.counts).map(o => o[type]));
-    const crimeScale = d3.scaleLinear()
-      .domain([0, maxCrime])
-      .range([0, 100]); // map between 0 and 100% width
-
-    animateBars(null, type, crimeScale);
-  }, 800)
+  filter.state = type;
+  updateBars();  
 }
 
 // show / hide popup with animation
@@ -325,51 +312,6 @@ function animatePopup(show) {
         display: show ? 'block' : 'none',
         duration: 200
       });
-}
-
-function animateBars(_w, type, crimeScale) {
-
-  const filter = type ? `[data-type="${type}"]` : '.bar';
-
-  $('.bar-graph .bar').filter(filter).each(function (bar) {
-    let width = 0;
-    if (crimeScale) {
-      const v = $(this).children('span').attr('data-val');
-      width = crimeScale(v);
-      $(this).closest('tr').find('.total').text(v)
-    }
-    else if (typeof _w === 'undefined') {
-      width = $(this).attr('data-width');
-    }
-
-    $(this)
-      .velocity({
-        'width': width + '%',
-        'border-width': width === 0 ? '0px' : '1px'
-      }, {
-          duration: 700
-        })
-
-  });
-
-  // update total to zero in case of zero
-  $('#bars-table .total').each(function () {
-    const $total = $(this);
-    if (crimeScale) {
-      if ($total.attr('data-total') == $total.text()) {
-        $total.text('0');
-      }
-    }
-    else {
-      $total.text($total.attr('data-total'));
-    }
-  });
-
-  if (crimeScale) {
-    $('.btn-clear-selection').prev('span').hide();
-    $('.btn-clear-selection').text('x ' + type).show();
-  }
-
 }
 
 initAPI();

@@ -133,6 +133,7 @@ body {
   border: 1px solid #f9f9f9;
   height: 24px;
   position: relative;
+  cursor: pointer;
 }
 #bars-table .bar {
   text-align: center;
@@ -214,9 +215,4 @@ body {
     width: 80%;
   }
 }
-
-.table td, .table th {
-  padding: 0;
-}
-
 
