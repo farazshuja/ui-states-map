@@ -43,6 +43,10 @@ body {
 }
 #bar-legend > div {
   width: 50%;
+  cursor: pointer;
+}
+#bar-legend > div.selected {
+  font-weight: bold;
 }
 #bar-legend > div span {
   display: inline-block;
@@ -108,6 +112,13 @@ body {
 #bars-table {
   width: 100%;
 }
+#bars-table .sort.asc:after {
+  content: "\2193 ";
+}
+#bars-table .sort.desc:after {
+  content: "\2191 ";
+}
+
 #bars-table .bar-states {
   width: 80%;
 }
@@ -202,6 +213,10 @@ body {
   #us-map-popup .list-data li {
     width: 80%;
   }
+}
+
+.table td, .table th {
+  padding: 0;
 }
 
 

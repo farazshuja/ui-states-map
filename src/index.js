@@ -187,19 +187,83 @@ function drawBars(apiData) {
   animateBars();
 
   $('.btn-clear-selection').click(function () {
+    $('.btn-clear-selection').prev('span').show();
     $(this).hide();
     animateBars();
     filteredOn = false;
+    $('#bar-legend > div').removeClass('selected');
   });
 
-  drawBarsLegend(apiData.program_types, colorScale);
+  drawBarsLegend(apiData.program_types, colorScale, apiData);
+
+  // hook sort filters
+  $('a[data-sort]').click(function() {
+    const sort_type = $(this).attr('data-sort');
+    const sort_order = $(this).hasClass('asc') ? 'desc' : 'asc';
+
+    
+    let arr = [];    
+    $('#bars-table tbody tr').each((index, item) => {
+      const $el = sort_type == 'state' ? $(item).children('td').eq(0) : $(item).find('.total');
+      arr.push({
+        index: index,
+        value: sort_type == 'state' ? $el.text() : +$el.text()
+      })
+    });
+
+    arr.sort((a, b) => {
+      if(typeof a === 'number') {
+        return sort_order == 'asc' ? a.value - b.value : b.value - a.value;
+      }
+      else {
+        return sort_order == 'asc' 
+          ? (a.value > b.value) - (a.value < b.value)
+          : (a.value < b.value) - (a.value > b.value)
+      }      
+    });
+    
+    console.log(arr);
+    
+    /*while(arr.length > 0) {
+      const $tr = $('#bars-table tbody tr');
+      const lastIndex = arr.length - 1; // 35
+      const lastItem = arr.pop();      // index: 0
+
+      // if they are not same
+      if (lastItem.index !== lastIndex) {
+        arr.splice(lastItem.index, 1);
+        const $row1 = $tr.eq(lastIndex);
+        const $row2 = $tr.eq(lastItem.index);
+        const $row1Clone = $row1.clone(true);
+        const $row2Clone = $row2.clone(true);
+
+        $row1.css('background', '#aaa');
+        $row2.css('background', '#aaa');
+
+        $row1Clone.insertBefore($row2);
+        $row2Clone.insertBefore($row1);
+
+        console.log($row1.attr('class'));
+        $row1.remove();
+        $row2.remove();
+      }
+
+    }*/
+
+    $(this).removeClass('asc desc').addClass(sort_order);
+        
+  });  
 }
 
-function drawBarsLegend (program_types, colorScale) {
+function drawBarsLegend (program_types, colorScale, apiData) {
   program_types.forEach(type => {
-    $('#bar-legend').append(`
-      <div><span style="background:${colorScale(type)}"></span>${type}</div>
-    `)
+    const $item = $(`
+      <div data-type="${type}"><span style="background:${colorScale(type)}"></span>${type}</div>
+    `);
+    $item.click(function() {
+      filterBars(null, apiData, type);
+    });
+    $('#bar-legend').append($item);
   })
 }
 
@@ -229,16 +293,19 @@ function filterTable(state) {
   }
 }
 
-function filterBars(bar, apiData) {
+function filterBars(bar, apiData, _type) {
   //animate bars to
   animateBars(0);
 
-  var type = $(bar).attr('data-type');
+  const type = _type || $(bar).attr('data-type');
+
+  //highlight bars legend
+  $('#bar-legend > div').removeClass('selected');
+  $(`#bar-legend > div[data-type="${type}"]`).addClass('selected');
 
   //w8 for 800ms and animate bars
   setTimeout(function () {
     const maxCrime = d3.max(Object.values(apiData.counts).map(o => o[type]));
-    console.log(maxCrime);
     const crimeScale = d3.scaleLinear()
       .domain([0, maxCrime])
       .range([0, 100]); // map between 0 and 100% width
@@ -268,7 +335,6 @@ function animateBars(_w, type, crimeScale) {
     let width = 0;
     if (crimeScale) {
       const v = $(this).children('span').attr('data-val');
-      console.log(v);
       width = crimeScale(v);
       $(this).closest('tr').find('.total').text(v)
     }
@@ -300,6 +366,7 @@ function animateBars(_w, type, crimeScale) {
   });
 
   if (crimeScale) {
+    $('.btn-clear-selection').prev('span').hide();
     $('.btn-clear-selection').text('x ' + type).show();
   }
 
