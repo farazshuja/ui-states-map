@@ -133,6 +133,7 @@ function renderDescription(state) {
   }
 
   var lists = '';
+  $('#us-map-popup .list-data').html('N/A');
   if (counts) {
     Object.keys(counts).forEach(function(key) {
       var val = counts[key];

@@ -6,7 +6,7 @@ body {
   cursor: pointer;
 }
 .state-path:hover {
-  fill: #cacaca;
+  fill: #c4122e;
 }
 
 .state-borders {
