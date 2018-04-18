@@ -59,9 +59,7 @@ function drawMap(mapData) {
       var id = +d.id;
       var state = stateNames[id];
       var colorObj = apiData.color_code[state];
-      if (colorObj) {
-        renderDescription(state, colorObj.color);
-      }
+      renderDescription(state);
     })
     .on('mouseout', function () {
       animatePopup();
@@ -119,7 +117,7 @@ function drawLegend() {
     .attr('text-anchor', 'end');
 }
 
-function renderDescription(state, color) {
+function renderDescription(state) {
   var coordinators = apiData.coordinators[state];
   var counts = apiData.counts[state];
 
