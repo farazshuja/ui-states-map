@@ -147,13 +147,13 @@ function renderDescription(state) {
 // generate html structure of the bars table
 function drawBarsTable() {
   apiData.states.forEach(function() {
-    $('#bars-table tbody').append(`
-      <tr class="state-row">
-        <td class="state-name"></td>
-        <td></td>
-        <td class="total"></td>
-      </tr>
-    `);
+    $('#bars-table tbody').append(
+      '<tr class="state-row">' +
+        '<td class="state-name"></td>' +
+        '<td></td>' +
+        '<td class="total"></td>' +
+      '</tr>'
+    );
   });
   updateBars();
   
@@ -168,6 +168,16 @@ function drawBarsTable() {
 
     updateBars();
   });
+
+  var options = '<option value="All">All</option>';
+  apiData.program_types.forEach(function(type) {
+    options += '<option value="' + type + '">' + type + '</option>'
+  });
+  // generate the dropdown
+  $('.filter-select').html(options);
+  $('.filter-select').change(function() {
+    selectBarLegend($(this).val());
+  })
 }
 
 // filter bars based on different attributes like sort type, sort order, selected state
@@ -283,24 +293,18 @@ function drawBarsLegend(colorScale) {
     `);
     $item.click(function () {
       var type = $(this).attr('data-type');
-      selectBarLegend(type);      
+      selectBarLegend(type);
     });
     $('#bar-legend').append($item);
-  });
-
-  $('.btn-clear-selection').click(function () {
-    $(this).hide();
-    filter.state = null;
-    updateBars();
   });
 }
 
 function selectBarLegend(type) {
   $('#bar-legend > div').removeClass('selected');
   $(`#bar-legend > div[data-type="${type}"]`).addClass('selected');
-  $('.btn-clear-selection').text('x ' + type).show();  
+  $('.filter-select').val(type);
 
-  filter.state = type;
+  filter.state = type === 'All' ? null : type;
   updateBars();  
 }
 
