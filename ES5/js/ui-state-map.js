@@ -263,7 +263,7 @@ function selectBarLegend(type) {
   $('#bar-legend > div').removeClass('selected');
   $(`#bar-legend > div[data-type="${type}"]`).addClass('selected');
   $('.filter-select').val(type);
-  filter.state = type;
+  filter.state = type === 'All' ? null : type;
   updateBars();
 }
 // show / hide popup with animation
