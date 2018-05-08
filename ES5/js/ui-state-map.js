@@ -139,6 +139,8 @@
       });
       $('#us-map-popup .list-data').html(lists);
     }
+    
+    $('.download-link').attr('href', apiData.downloads[state]);
   }
   // generate html structure of the bars table
   function drawBarsTable() {
@@ -287,8 +289,7 @@
   function animatePopup(show) {
     $('#us-map-popup')
       .velocity("stop", true).velocity({
-        opacity: show ? 1 : 0,
-        'margin-top': show ? '20px' : '0px'
+        opacity: show ? 1 : 0
       },
         {
           display: show ? 'block' : 'none',
