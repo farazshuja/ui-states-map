@@ -134,14 +134,13 @@
         coordinators.phone
       )
     }
-    var lists = '';
-    $('#us-map-popup .list-data').html('N/A');
+    var lists = '<li class="list-group-item active d-flex justify-content-between"><span>Courts by Type</span><span class="total-count">' + apiData.totals[state] + '</span></li>';
+    $('#us-map-popup .list-group').empty();
     if (counts) {
       Object.keys(counts).forEach(function (key) {
         var val = counts[key];
-        lists += ('<li>' + key + '<span class="count">' + counts[key] + '</span></li>');
+        lists += ('<li class="list-group-item">' + key + '<span class="count">' + counts[key] + '</span></li>');
       });
-      $('span.total-count').text(apiData.totals[state]);
       $('#us-map-popup .list-data').html(lists);
     }
     
