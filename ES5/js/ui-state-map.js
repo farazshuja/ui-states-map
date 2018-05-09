@@ -87,22 +87,6 @@
       .attr("class", "state-borders")
       .attr("d", path(topojson.mesh(mapData, mapData.objects.states, function (a, b) { return a !== b; })));
     
-    svg.selectAll(".state-text")
-      .data(topojson.feature(mapData, mapData.objects.states).features)
-      .enter().append("text")
-      .attr('class', 'state-text')
-      .attr("x", function(d) {
-          return path.centroid(d)[0];
-      })
-      .attr("y", function(d) {
-          return path.centroid(d)[1];
-      })
-      .text(function(d) {
-        var id = +d.id;
-        var state = stateNames[id];        
-        return apiData.totals[state];
-      });
-
       // draw legend
     drawLegend();
   }
