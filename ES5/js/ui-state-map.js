@@ -1,5 +1,5 @@
   var stateNames = { "1": "Alabama", "2": "Alaska", "4": "Arizona", "5": "Arkansas", "6": "California", "8": "Colorado", "9": "Connecticut", "10": "Delaware", "11": "District of Columbia", "12": "Florida", "13": "Georgia", "15": "Hawaii", "16": "Idaho", "17": "Illinois", "18": "Indiana", "19": "Iowa", "20": "Kansas", "21": "Kentucky", "22": "Louisiana", "23": "Maine", "24": "Maryland", "25": "Massachusetts", "26": "Michigan", "27": "Minnesota", "28": "Mississippi", "29": "Missouri", "30":   "Montana", "31": "Nebraska", "32": "Nevada", "33": "New Hampshire", "34": "New Jersey", "35": "New Mexico", "36": "New York", "37": "North Carolina", "38": "North Dakota", "39": "Ohio", "40": "Oklahoma", "41": "Oregon", "42": "Pennsylvania", "44": "Rhode Island", "45": "South Carolina", "46": "South Dakota", "47": "Tennessee", "48": "Texas", "49": "Utah", "50": "Vermont", "51": "Virginia", "53": "Washington", "54": "West Virginia", "55": "Wisconsin", "56": "Wyoming", "60": "American Samoa",   "66": "Guam", "69": "Northern Mariana Islands", "72": "Puerto   Rico", "74": "U.S. Minor Outlying Islands", "78": "U.S. Virgin Islands" };
-  var chartColors = {"Adult Drug":"#10637a","Campus Drug":"#4c3230","DWI/DUI":"#b95837","Juvenile Drug":"#9d0025","Healing to Wellness":"#555f6f","Veterans Treatment":"#39374a","Hybrid DWI/Drug":"#69839d","Mental Health":"#b6c6a1","Other":"#d27a1d","Family Dependency":"#86596e","Co-Occurring Disorder":"#bda089","Re-entry":"#630017"};
+  var chartColors;
 
   var filteredOn = null;
   // filter: { sort_type: 'title | total', sort_order: 'asc | desc', state: 'state name'}
@@ -36,13 +36,15 @@
       $.getJSON('/api/v1/boundaries.json'),
       $.getJSON('/api/v1/metrics.json'),
       $.getJSON('/api/v1/color_legend.json'),
+      $.getJSON('/api/v1/chart_colors.json')
     )
-      .done(function (_mapData, _apiData, _colorLegend) {
-        apiData = _apiData[0]
-        distinct_colors = Object.values(_colorLegend[0])
-        drawMap(_mapData[0]);
-        drawBarsTable(apiData);
-      });
+    .done(function (_mapData, _apiData, _colorLegend, _chartColors) {
+      apiData = _apiData[0];
+      distinct_colors = Object.values(_colorLegend[0]);
+      chartColors = _chartColors[0];
+      drawMap(_mapData[0]);
+      drawBarsTable(apiData);
+    });
   }
   function drawMap(mapData) {
     svg.append("g")
@@ -80,10 +82,28 @@
         var colorObj = apiData.color_code[state];
         renderDescription(state);
       });
+
     svg.append("path")
       .attr("class", "state-borders")
       .attr("d", path(topojson.mesh(mapData, mapData.objects.states, function (a, b) { return a !== b; })));
-    // draw legend
+    
+    svg.selectAll(".state-text")
+      .data(topojson.feature(mapData, mapData.objects.states).features)
+      .enter().append("text")
+      .attr('class', 'state-text')
+      .attr("x", function(d) {
+          return path.centroid(d)[0];
+      })
+      .attr("y", function(d) {
+          return path.centroid(d)[1];
+      })
+      .text(function(d) {
+        var id = +d.id;
+        var state = stateNames[id];        
+        return apiData.totals[state];
+      });
+
+      // draw legend
     drawLegend();
   }
   function drawLegend() {
@@ -137,6 +157,7 @@
         var val = counts[key];
         lists += ('<li>' + key + '<span class="count">' + counts[key] + '</span></li>');
       });
+      $('span.total-count').text(apiData.totals[state]);
       $('#us-map-popup .list-data').html(lists);
     }
     

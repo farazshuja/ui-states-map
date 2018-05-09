@@ -4726,7 +4726,8 @@ input[type="button"].btn-block {
 }
 
 .badge,
-#us-map-popup .list-data li span.count {
+#us-map-popup .list-data li span.count,
+span.total-count {
   display: inline-block;
   padding: 0.25em 0.4em;
   font-size: 75%;
@@ -4736,6 +4737,9 @@ input[type="button"].btn-block {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.25rem
+}
+span.total-count {
+  font-size: 85%;
 }
 
 .badge:empty,
@@ -4769,7 +4773,8 @@ input[type="button"].btn-block {
 }
 
 .badge-secondary,
-#us-map-popup .list-data li span.count {
+#us-map-popup .list-data li span.count,
+span.total-count {
   color: #fff;
   background-color: #6c757d
 }
@@ -12094,7 +12099,8 @@ body {
 
 #us-map-popup h2 {
   font-size: 16px;
-  margin: 0
+  margin: 0;
+  padding: 3px 7px;
 }
 
 #us-map-popup .list-data {
@@ -12134,7 +12140,7 @@ body {
 
 #bars-table .bar-graph .bar {
   background: #ccc;
-  border: 1px solid #f9f9f9;
+  margin-right: 1px;
   height: 24px;
   position: relative;
   cursor: pointer
@@ -12227,6 +12233,12 @@ body {
       top: 0;
       width: 350px
   }
+}
+
+.state-text {
+  font-size: 12px;
+  color: #777;
+  text-anchor: middle;
 }
 
 .login-section,
