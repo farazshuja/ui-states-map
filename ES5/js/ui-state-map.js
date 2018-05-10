@@ -159,7 +159,7 @@
     });
     // also add the row for total
     $('#bars-table tbody').append(`
-      <tr class="state-row table-info">
+      <tr class="state-row table-info font-weight-bold">
         <td class="state-name">Total</td>
         <td></td>
         <td class="total"></td>
@@ -232,6 +232,13 @@
       last += next.total;
       return last;
     }, 0);
+
+    $('.state-row-empty-msg').remove();
+    if (totalCourts === 0) {
+      $('.state-row').hide();
+      $('#bars-table tbody').append('<tr class="state-row-empty-msg text-center"><td colspan="3">No Data Available</td></tr>');
+      return;
+    }
 
     var courtsScale = d3.scaleLinear()
       .domain([0, maxCourts])
