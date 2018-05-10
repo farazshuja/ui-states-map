@@ -243,14 +243,17 @@
     var courtsScale = d3.scaleLinear()
       .domain([0, maxCourts])
       .range([0, 100]); // map between 0 and 100% width*/
-
+      
     // add total row
     barsData.push({
       title: 'Total',
       total: totalCourts,
-      counts: [{title: "Adult Drug", count: 0},{title: "Campus Drug", count: 0},{title: "DWI/DUI", count: 0},{title: "Juvenile Drug", count: 0},{title: "Healing to Wellness", count: 0},{title: "Veterans Treatment", count: 0},{title: "Hybrid DWI/Drug", count: 0},
-      {title: "Mental Health", count: 0},{title: "Other", count: 0},{title: "Family Dependency", count: 0},{title: "Co-Occurring Disorder", count: 0},
-      {title: "Re-entry", count: 0}]
+      counts: apiData.program_types.map(function (__t) {
+        return {
+          title: __t,
+          count: 0
+        }
+      })
     });
     
     var cells = d3.selectAll('.state-row')
