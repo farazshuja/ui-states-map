@@ -33,10 +33,10 @@
   // synchoronouly load data
   function initAPI() {
     $.when(
-      $.getJSON('/api/v1/boundaries.json'),
-      $.getJSON('/api/v1/metrics.json'),
-      $.getJSON('/api/v1/color_legend.json'),
-      $.getJSON('/api/v1/chart_colors.json')
+      $.getJSON('api/v1/boundaries.json'),
+      $.getJSON('api/v1/metrics.json'),
+      $.getJSON('api/v1/color_legend.json'),
+      $.getJSON('api/v1/chart_colors.json')
     )
     .done(function (_mapData, _apiData, _colorLegend, _chartColors) {
       apiData = _apiData[0];
