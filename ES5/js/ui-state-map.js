@@ -155,14 +155,6 @@ function drawBarsTable() {
         </tr>
       `);
   });
-  // also add the row for total
-  $('#bars-table tbody').append(`
-    <tr class="state-row table-info font-weight-bold">
-      <td class="state-name">Total</td>
-      <td></td>
-      <td class="total"></td>
-    </tr>
-  `);
   updateBars();
   $('a[data-sort]').click(function () {
     var $a = $(this);
