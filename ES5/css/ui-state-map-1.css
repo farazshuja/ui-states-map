@@ -4726,8 +4726,7 @@ input[type="button"].btn-block {
 }
 
 .badge,
-#us-map-popup .list-data li span.count,
-span.total-count {
+#us-map-popup .list-data li span.count {
   display: inline-block;
   padding: 0.25em 0.4em;
   font-size: 75%;
@@ -4737,9 +4736,6 @@ span.total-count {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.25rem
-}
-span.total-count {
-  font-size: 85%;
 }
 
 .badge:empty,
@@ -4772,17 +4768,13 @@ span.total-count {
   background-color: #0062cc
 }
 
-.badge-secondary,
-#us-map-popup .list-data li span.count,
-span.total-count {
+.badge-secondary {
   color: #fff;
   background-color: #6c757d
 }
 
 .badge-secondary[href]:hover,
-#us-map-popup .list-data li span[href].count:hover,
-.badge-secondary[href]:focus,
-#us-map-popup .list-data li span[href].count:focus {
+.badge-secondary[href]:focus {
   color: #fff;
   text-decoration: none;
   background-color: #545b62
@@ -4836,13 +4828,16 @@ span.total-count {
   background-color: #bd2130
 }
 
-.badge-light {
+.badge-light,
+#us-map-popup .list-data li span.count {
   color: #212529;
   background-color: #f8f9fa
 }
 
 .badge-light[href]:hover,
-.badge-light[href]:focus {
+#us-map-popup .list-data li span[href].count:hover,
+.badge-light[href]:focus,
+#us-map-popup .list-data li span[href].count:focus {
   color: #212529;
   text-decoration: none;
   background-color: #dae0e5
@@ -12010,7 +12005,7 @@ body {
 }
 
 .state-path:hover {
-  fill: #414547;
+  fill: #d5c883
 }
 
 .state-borders {
@@ -12036,9 +12031,8 @@ body {
   }
 }
 
-/* Map related css  */
 .map-section {
-  background: #e8f6fc
+  background: #e7f6fc
 }
 
 #bar-legend {
@@ -12049,10 +12043,8 @@ body {
 }
 
 #bar-legend>div {
-  width: 50%;
-  cursor: pointer;
-  position: relative;
-  padding-left: 35px;
+  width: 32.5%;
+  cursor: pointer
 }
 
 #bar-legend>div.selected {
@@ -12061,9 +12053,8 @@ body {
 
 #bar-legend>div span {
   display: inline-block;
-  position: absolute;
-  top: 4px;
-  left: 0;
+  position: relative;
+  top: 2px;
   width: 30px;
   height: 15px;
   margin-right: 10px
@@ -12071,7 +12062,7 @@ body {
 
 @media (min-width: 999px) {
   #bar-legend>div {
-      width: 25%
+      width: 32.5%
   }
 }
 
@@ -12099,8 +12090,12 @@ body {
 
 #us-map-popup h2 {
   font-size: 16px;
-  margin: 0;
-  padding: 3px 7px;
+  margin: 0
+}
+
+#us-map-popup .download-link {
+  margin-top: 20px;
+  font-size: 12px
 }
 
 #us-map-popup .list-data {
@@ -12108,12 +12103,52 @@ body {
   padding: 0
 }
 
+#us-map-popup .list-data h4.data-unavailable {
+  margin-top: 4em;
+  margin-bottom: 4em;
+  text-align: center;
+  justify-content: center
+}
+
 #us-map-popup .list-data li {
-  padding: 0.3rem 0.4rem
+  padding: 0.3rem 0.4rem;
+  text-transform: uppercase;
+  color: #555555;
+  font-size: 90%
 }
 
 #us-map-popup .list-data li span.count {
-  float: right
+  float: right;
+  font-size: 100%
+}
+
+#us-map-popup .list-data li span.count:empty {
+  display: none
+}
+
+#us-map-popup .list-data li span.total-count {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 85%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem
+}
+
+#us-map-popup .list-data li.list-group-item-header {
+  padding: 8px 5px 8px 5px;
+  background-color: #ccc
+}
+
+#us-map-popup .list-data li.list-group-item-header .title {
+  font-weight: bolder
+}
+
+#us-map-popup .list-data li.list-group-item-header .total-count {
+  font-size: 120%
 }
 
 #bars-table {
@@ -12197,24 +12232,15 @@ body {
       bottom: 0
   }
   #us-map {
-      margin: 0 25% 5% 0
+      margin: 0 20% 5% 0
   }
   #us-map-popup {
-    width: 250px;
-    margin-top: 0;
+      width: 250px;
+      margin-top: 0px
   }
   #us-map-popup .list-data li {
-    padding: 0.1rem 0.3rem;
-    font-size: 14px;
-  }
-}
-@media (min-width: 1240px) {
-  #us-map-popup {
-    margin-top: 20px;
-  }
-  #us-map-popup .list-data li {
-    padding: 0.2rem 0.4rem;
-    font-size: 16px;
+      padding: 0.1rem 0.3rem;
+      font-size: 14px
   }
 }
 
@@ -12234,11 +12260,17 @@ body {
       width: 350px
   }
 }
-
-.state-text {
-  font-size: 12px;
-  color: #777;
-  text-anchor: middle;
+a[data-sort=total] {
+  display: block;
+}
+.total-badge {
+  background: #6c757c;
+  border-radius: 3px;
+  padding: 3px;
+  font-size: 14px;
+  margin: 5px 0;
+  color: #fff;
+  display: inline-block;
 }
 
 .login-section,
@@ -12316,9 +12348,32 @@ body {
   font-size: 80%
 }
 
-.chart-section .legend-area #bar-legend div {
-  font-size: 80%;
-  text-transform: uppercase
+.chart-section .legend-area #bar-legend {
+  margin: 10px 0;
+  padding: 10px;
+  display: flex;
+  font-size: 14px
+}
+
+.chart-section .legend-area #bar-legend>div {
+  width: 32.5%;
+  cursor: pointer;
+  position: relative;
+  padding-left: 35px
+}
+
+.chart-section .legend-area #bar-legend>div.selected {
+  font-weight: bold
+}
+
+.chart-section .legend-area #bar-legend>div span {
+  display: inline-block;
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 30px;
+  height: 15px;
+  margin-right: 10px
 }
 
 .dashboard-list-section {
@@ -12370,8 +12425,9 @@ body {
   color: #404446
 }
 
-.list-count-card .actions .list-count-card-actions {
-  padding-top: 2em
+.list-count-card .list-count-card-actions {
+  background-color: #ffffff;
+  border: 1px solid #fefefe
 }
 
 .map-section #how-to-use {
@@ -12410,8 +12466,10 @@ footer .footer-bottom-row .copyright-information {
 #us-map-legend {
   display: none
 }
-.download-link {
-  font-size: 12px;
+
+.modal {
+  position: absolute !important;
+  top: 0 !important
 }
 
 
