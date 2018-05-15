@@ -1,0 +1,458 @@
+{
+  "1": {
+    "name": "Alabama",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "2": {
+    "name": "Alaska",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "4": {
+    "name": "Arizona",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "5": {
+    "name": "Arkansas",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "6": {
+    "name": "California",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "8": {
+    "name": "Colorado",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "9": {
+    "name": "Connecticut",
+    "rx": 0,
+    "ry": 0,
+    "lx": 20,
+    "ly": 20,
+    "lw": 10
+  },
+  "10": {
+    "name": "Delaware",
+    "rx": 0,
+    "ry": 0,
+    "lx": 30,
+    "ly": 5,
+    "lw": 10
+  },
+  "11": {
+    "name": "District of Columbia",
+    "rx": 0,
+    "ry": 0,
+    "lx": 30,
+    "ly": 5,
+    "lw": 30
+  },
+  "12": {
+    "name": "Florida",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "13": {
+    "name": "Georgia",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "15": {
+    "name": "Hawaii",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "16": {
+    "name": "Idaho",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "17": {
+    "name": "Illinois",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "18": {
+    "name": "Indiana",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "19": {
+    "name": "Iowa",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "20": {
+    "name": "Kansas",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "21": {
+    "name": "Kentucky",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "22": {
+    "name": "Louisiana",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "23": {
+    "name": "Maine",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "24": {
+    "name": "Maryland",
+    "rx": 0,
+    "ry": 0,
+    "lx": 30,
+    "ly": 35,
+    "lw": 30
+  },
+  "25": {
+    "name": "Massachusetts",
+    "rx": 0,
+    "ry": 0,
+    "lx": 30,
+    "ly": -25,
+    "lw": 10
+  },
+  "26": {
+    "name": "Michigan",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "27": {
+    "name": "Minnesota",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "28": {
+    "name": "Mississippi",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "29": {
+    "name": "Missouri",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "30": {
+    "name": "Montana",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "31": {
+    "name": "Nebraska",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "32": {
+    "name": "Nevada",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "33": {
+    "name": "New Hampshire",
+    "rx": 0,
+    "ry": 0,
+    "lx": -210,
+    "ly": -250,
+    "lw": 200
+  },
+  "34": {
+    "name": "New Jersey",
+    "rx": 0,
+    "ry": 0,
+    "lx": 30,
+    "ly": 5,
+    "lw": 10
+  },
+  "35": {
+    "name": "New Mexico",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "36": {
+    "name": "New York",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "37": {
+    "name": "North Carolina",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "38": {
+    "name": "North Dakota",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "39": {
+    "name": "Ohio",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "40": {
+    "name": "Oklahoma",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "41": {
+    "name": "Oregon",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "42": {
+    "name": "Pennsylvania",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "44": {
+    "name": "Rhode Island",
+    "rx": 0,
+    "ry": 0,
+    "lx": 30,
+    "ly": 5,
+    "lw": 10
+  },
+  "45": {
+    "name": "South Carolina",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "46": {
+    "name": "South Dakota",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "47": {
+    "name": "Tennessee",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "48": {
+    "name": "Texas",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "49": {
+    "name": "Utah",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "50": {
+    "name": "Vermont",
+    "rx": 0,
+    "ry": 0,
+    "lx": -225,
+    "ly": -230,
+    "lw": 200
+  },
+  "51": {
+    "name": "Virginia",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "53": {
+    "name": "Washington",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "54": {
+    "name": "West Virginia",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "55": {
+    "name": "Wisconsin",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "56": {
+    "name": "Wyoming",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "60": {
+    "name": "American Samoa",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "66": {
+    "name": "Guam",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "69": {
+    "name": "Northern Mariana Islands",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "72": {
+    "name": "Puerto   Rico",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "74": {
+    "name": "U.S. Minor Outlying Islands",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  },
+  "78": {
+    "name": "U.S. Virgin Islands",
+    "rx": 0,
+    "ry": 0,
+    "lx": 0,
+    "ly": 0,
+    "lw": 0
+  }
+}

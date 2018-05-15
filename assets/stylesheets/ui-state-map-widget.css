@@ -1,0 +1,42 @@
+body {
+  background: #f9f9f9; }
+
+.map-section {
+  background: #e7f6fc; }
+
+.map-theme {
+  padding-left: 2px;
+  padding-right: 2px;
+  max-width: 1200px;
+  margin: auto; }
+  .map-theme .state-text-rect {
+    fill: #ccc;
+    opacity: .8;
+    cursor: pointer; }
+  .map-theme .state-text {
+    text-anchor: middle;
+    font-size: 12px;
+    color: #8d7c97;
+    font-family: Verdana;
+    cursor: pointer; }
+  .map-theme .state-path {
+    fill: #7c9097;
+    cursor: pointer; }
+  .map-theme .state-line {
+    stroke: #ccc;
+    stroke-width: 1; }
+  .map-theme .state-hover .state-path {
+    fill: #d5c883; }
+  .map-theme .state-hover .state-line {
+    stroke: #8c8c8c;
+    stroke-width: 2; }
+  .map-theme .state-hover .state-text-rect {
+    fill: #8c8c8c;
+    opacity: .9; }
+  .map-theme .state-borders {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 0.5px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    pointer-events: none; }
